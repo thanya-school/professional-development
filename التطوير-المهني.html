@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة التطوير المهني</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+  بيانات المنصة الافتراضية (تُقرأ عند أول تشغيل، ثم تُحفظ محليًا)
+  عند الضغط على "تنزيل نسخة محدثة" يقوم النظام باستبدال محتوى
+  هذا الوسم بالبيانات الحالية، لإنتاج ملف HTML جديد جاهز للرفع.
+============================================================ -->
+<script id="__DATA__" type="application/json">
+{
+  "guides": [],
+  "forms": [],
+  "programs": []
+}
+</script>
+
+<style>
+  :root{
+    --ink:#0f2c3a;
+    --primary:#15445a;
+    --primary-dark:#0c2b38;
+    --teal:#0da9a6;
+    --blue:#3d7eb9;
+    --green:#07a869;
+    --gold:#c1b489;
+    --bg:#f4f7f8;
+    --card:#ffffff;
+    --line:#e1e8ea;
+    --muted:#6c7f86;
+    --danger:#c14a4a;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(15,44,58,.06), 0 8px 24px -12px rgba(15,44,58,.18);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans Arabic', system-ui, sans-serif;
+    line-height:1.7;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  a{color:inherit}
+  button{font-family:inherit; cursor:pointer}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px; width:100%}
+
+  /* ---------- الشريط العلوي ---------- */
+  .topbar{
+    background:var(--primary);
+    color:#fff;
+  }
+  .topbar-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px; gap:12px;
+  }
+  .brand{display:flex; align-items:center; gap:12px}
+  .brand-mark{
+    height:40px; width:auto; border-radius:10px;
+    background:#ffffff;
+    display:flex; align-items:center; justify-content:center;
+    flex:none; padding:5px 9px;
+    box-shadow:0 1px 3px rgba(0,0,0,.12);
+  }
+  .brand-mark img{height:100%; width:auto; display:block}
+  .brand-text{font-weight:700; font-size:17px; letter-spacing:.2px}
+  .brand-sub{font-size:11.5px; color:#cfe1e6; margin-top:1px}
+  .admin-btn{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.28);
+    color:#fff; padding:8px 16px; border-radius:999px;
+    font-size:13.5px; font-weight:600; display:flex; align-items:center; gap:6px;
+    transition:background .15s ease;
+  }
+  .admin-btn:hover{background:rgba(255,255,255,.2)}
+  .admin-btn.on{background:var(--green); border-color:var(--green)}
+
+  /* ---------- الهيرو ---------- */
+  .hero{
+    position:relative;
+    background:var(--primary);
+    color:#fff;
+    padding:44px 20px 58px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(3.5px 3.5px at 12% 30%, rgba(13,169,166,.55) 99%, transparent 100%),
+      radial-gradient(3px 3px at 20% 60%, rgba(61,126,185,.5) 99%, transparent 100%),
+      radial-gradient(2.5px 2.5px at 30% 25%, rgba(7,168,105,.5) 99%, transparent 100%),
+      radial-gradient(3px 3px at 40% 70%, rgba(13,169,166,.4) 99%, transparent 100%),
+      radial-gradient(2px 2px at 8% 75%, rgba(193,180,137,.5) 99%, transparent 100%),
+      radial-gradient(3.5px 3.5px at 92% 22%, rgba(7,168,105,.55) 99%, transparent 100%),
+      radial-gradient(2.5px 2.5px at 85% 55%, rgba(61,126,185,.5) 99%, transparent 100%),
+      radial-gradient(3px 3px at 95% 68%, rgba(13,169,166,.45) 99%, transparent 100%),
+      radial-gradient(2px 2px at 78% 80%, rgba(193,180,137,.4) 99%, transparent 100%);
+    opacity:.9;
+  }
+  .hero-inner{position:relative; z-index:1; text-align:center}
+  .hero h1{
+    font-size:clamp(28px,4.2vw,40px);
+    font-weight:700; margin:0 0 10px;
+  }
+  .hero-line{
+    width:64px; height:3px; margin:0 auto 16px;
+    background:linear-gradient(90deg, var(--teal), var(--green));
+    border-radius:3px;
+  }
+  .hero p{
+    max-width:560px; margin:0 auto; color:#dce9ec; font-size:15px;
+  }
+  .hero .schools{
+    margin-top:18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+  }
+  .school-chip{
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.22);
+    padding:7px 14px; border-radius:999px; font-size:12.5px; color:#eef6f7;
+  }
+
+  /* ---------- التبويبات ---------- */
+  .tabs-wrap{margin-top:-26px; position:relative; z-index:2}
+  .tabs{
+    background:var(--card);
+    border-radius:999px;
+    box-shadow:var(--shadow);
+    display:flex; gap:3px; padding:5px;
+    max-width:640px; margin:0 auto;
+  }
+  .tab{
+    flex:1; border:none; background:transparent; color:var(--muted);
+    padding:11px 14px; border-radius:999px; font-size:14.5px; font-weight:600;
+    display:flex; align-items:center; justify-content:center; gap:7px;
+    transition:all .15s ease;
+  }
+  .tab.active{background:var(--primary); color:#fff}
+  .tab svg{width:17px; height:17px; flex:none}
+
+  /* ---------- المحتوى ---------- */
+  main{flex:1; padding:34px 20px 60px}
+  .section-head{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    margin-bottom:18px; flex-wrap:wrap;
+  }
+  .section-title{font-size:19px; font-weight:700; color:var(--primary)}
+  .section-count{font-size:13px; color:var(--muted); margin-inline-start:8px; font-weight:500}
+  .btn{
+    border:none; border-radius:10px; padding:10px 16px; font-size:13.5px; font-weight:600;
+    display:inline-flex; align-items:center; gap:7px; transition:filter .15s ease, transform .05s ease;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--green); color:#fff}
+  .btn-primary:hover{filter:brightness(1.06)}
+  .btn-ghost{background:#eef3f4; color:var(--primary)}
+  .btn-ghost:hover{filter:brightness(.97)}
+  .btn-outline{background:#fff; border:1px solid var(--line); color:var(--ink)}
+  .btn-danger-outline{background:#fff; border:1px solid #f0d3d3; color:var(--danger)}
+  .btn-sm{padding:7px 12px; font-size:12.5px; border-radius:8px}
+  .btn svg{width:15px; height:15px}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:16px}
+
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px; display:flex; flex-direction:column; gap:10px;
+    box-shadow:var(--shadow);
+  }
+  .card-top{display:flex; align-items:flex-start; gap:10px}
+  .file-icon{
+    width:40px; height:40px; border-radius:10px; flex:none;
+    background:linear-gradient(135deg, var(--blue), var(--primary));
+    display:flex; align-items:center; justify-content:center; color:#fff;
+  }
+  .file-icon svg{width:20px; height:20px}
+  .card-title{font-weight:700; font-size:15px; color:var(--ink)}
+  .card-date{font-size:11.5px; color:var(--muted); margin-top:2px}
+  .card-desc{font-size:13px; color:var(--muted); flex:1}
+  .card-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:4px}
+  .card-actions-admin{display:flex; gap:8px; flex-wrap:wrap; margin-top:2px; padding-top:10px; border-top:1px dashed var(--line)}
+
+  .empty{
+    text-align:center; padding:50px 20px; color:var(--muted);
+    background:var(--card); border:1px dashed var(--line); border-radius:var(--radius);
+  }
+  .empty svg{width:40px; height:40px; color:var(--gold); margin-bottom:10px}
+  .empty h3{color:var(--ink); font-size:16px; margin:0 0 6px}
+  .empty p{font-size:13px; margin:0 0 16px}
+
+  /* ---------- طبقة التذييل ---------- */
+  footer{
+    background:var(--primary-dark); color:#cfe1e6; padding:22px 20px; text-align:center; font-size:12.5px;
+  }
+  footer strong{color:#fff}
+  footer .foot-note{margin-top:4px; color:#9bb6bd; font-size:11.5px}
+
+  /* ---------- النوافذ المنبثقة ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(12,30,38,.55);
+    display:none; align-items:center; justify-content:center; padding:20px; z-index:50;
+  }
+  .overlay.show{display:flex}
+  .modal{
+    background:#fff; border-radius:16px; width:100%; max-width:440px;
+    max-height:90vh; overflow:auto; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .modal h3{margin:0 0 4px; font-size:17px; color:var(--primary)}
+  .modal .sub{font-size:12.5px; color:var(--muted); margin-bottom:16px}
+  .field{margin-bottom:14px}
+  .field label{display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--ink)}
+  .field input[type=text], .field input[type=password], .field textarea, .field input[type=url]{
+    width:100%; border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+    font-family:inherit; font-size:13.5px; background:#fafcfc;
+  }
+  .field textarea{resize:vertical; min-height:70px}
+  .field input:focus, .field textarea:focus{outline:2px solid var(--teal); outline-offset:1px}
+  .field-hint{font-size:11.5px; color:var(--muted); margin-top:5px}
+  .modal-actions{display:flex; gap:10px; margin-top:18px}
+  .modal-actions .btn{flex:1; justify-content:center}
+  .filetype-toggle{display:flex; gap:8px; margin-bottom:10px}
+  .filetype-toggle button{flex:1; padding:8px; border-radius:9px; border:1px solid var(--line); background:#fafcfc; font-size:12.5px; font-weight:600; color:var(--muted)}
+  .filetype-toggle button.active{background:var(--primary); color:#fff; border-color:var(--primary)}
+
+  .toast{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:#fff; padding:11px 20px; border-radius:999px;
+    font-size:13px; box-shadow:0 10px 30px rgba(0,0,0,.25); z-index:80;
+    opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+
+  .admin-banner{
+    background:#fff7e6; border:1px solid #f0dfab; color:#8a6d1a;
+    font-size:12.5px; padding:9px 16px; border-radius:10px; margin-bottom:18px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .admin-banner svg{width:15px; height:15px; flex:none}
+
+  @media (max-width:520px){
+    .tabs-wrap{margin-top:-20px}
+    .hero{padding:34px 16px 46px}
+    main{padding:26px 14px 50px}
+    .tab{font-size:11.5px; padding:9px 5px; gap:4px; white-space:normal; line-height:1.25}
+    .tab svg{width:14px; height:14px}
+  }
+  @media print{
+    .topbar, .hero, .tabs-wrap, footer, .card-actions, .card-actions-admin, .admin-banner{display:none !important}
+    body{background:#fff}
+  }
+</style>
+</head>
+<body>
+
+<!-- الشريط العلوي -->
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <div>
+        <div class="brand-text">منصة التطوير المهني</div>
+        <div class="brand-sub">وزارة التعليم</div>
+      </div>
+    </div>
+    <button class="admin-btn" id="adminToggleBtn" onclick="onAdminToggleClick()">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span id="adminBtnLabel">دخول الإدارة</span>
+    </button>
+  </div>
+</div>
+
+<!-- الهيرو -->
+<div class="hero">
+  <div class="wrap hero-inner">
+    <h1>التطوير المهني</h1>
+    <div class="hero-line"></div>
+    <p>مساحة واحدة لأدلة التطوير المهني ونماذجه، لسهولة الاطلاع والطباعة لجميع المنسوبات.</p>
+    <div class="schools">
+      <span class="school-chip">الابتدائية الثانية بالدَّلَم</span>
+      <span class="school-chip">الابتدائية الأولى لتحفيظ القرآن الكريم</span>
+    </div>
+  </div>
+</div>
+
+<!-- التبويبات -->
+<div class="wrap tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" id="tabBtn-guides" onclick="switchTab('guides')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5A2.5 2.5 0 016.5 3H19v15.5A2.5 2.5 0 0116.5 21H4V5.5z" stroke="currentColor" stroke-width="1.5"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      أدلة التطوير المهني
+    </button>
+    <button class="tab" id="tabBtn-forms" onclick="switchTab('forms')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      النماذج
+    </button>
+    <button class="tab" id="tabBtn-programs" onclick="switchTab('programs')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l9 5-9 5-9-5 9-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 12v4c0 1.4 2.7 3 6 3s6-1.6 6-3v-4" stroke="currentColor" stroke-width="1.5"/></svg>
+      برامج التطوير المهني
+    </button>
+  </div>
+</div>
+
+<!-- المحتوى -->
+<main class="wrap">
+  <div class="admin-banner" id="adminBanner" style="display:none">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4M12 16.5h.01M10.3 3.9L2.9 17.1A1.7 1.7 0 004.4 19.6h15.2a1.7 1.7 0 001.5-2.5L13.7 3.9a1.7 1.7 0 00-3.4 0z" stroke="currentColor" stroke-width="1.5"/></svg>
+    وضع الإدارة مفعّل — أي إضافة أو تعديل يظهر لجميع من يفتح الملف بعد تنزيل النسخة المحدثة ورفعها.
+  </div>
+
+  <section id="section-guides">
+    <div class="section-head">
+      <div><span class="section-title">أدلة التطوير المهني</span><span class="section-count" id="count-guides"></span></div>
+      <button class="btn btn-primary admin-only" style="display:none" onclick="openItemModal('guides')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        إضافة دليل
+      </button>
+    </div>
+    <div class="grid" id="grid-guides"></div>
+  </section>
+
+  <section id="section-forms" style="display:none">
+    <div class="section-head">
+      <div><span class="section-title">النماذج</span><span class="section-count" id="count-forms"></span></div>
+      <button class="btn btn-primary admin-only" style="display:none" onclick="openItemModal('forms')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        إضافة نموذج
+      </button>
+    </div>
+    <div class="grid" id="grid-forms"></div>
+  </section>
+
+  <section id="section-programs" style="display:none">
+    <div class="section-head">
+      <div><span class="section-title">برامج التطوير المهني</span><span class="section-count" id="count-programs"></span></div>
+      <button class="btn btn-primary admin-only" style="display:none" onclick="openItemModal('programs')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        إضافة برنامج
+      </button>
+    </div>
+    <div class="grid" id="grid-programs"></div>
+  </section>
+</main>
+
+<footer>
+  <div><strong>إعداد: جواهر العسكر</strong></div>
+  <div class="foot-note">منصة التطوير المهني — الابتدائية الثانية بالدَّلَم | الابتدائية الأولى لتحفيظ القرآن الكريم</div>
+</footer>
+
+<!-- نافذة تسجيل دخول الإدارة -->
+<div class="overlay" id="loginOverlay">
+  <div class="modal">
+    <h3>دخول الإدارة</h3>
+    <div class="sub">أدخلي كلمة المرور الخاصة بالإشراف على المنصة</div>
+    <div class="field">
+      <label>كلمة المرور</label>
+      <input type="password" id="adminPasswordInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')trySubmitLogin()">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('loginOverlay')">إلغاء</button>
+      <button class="btn btn-primary" onclick="trySubmitLogin()">دخول</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة إضافة / تعديل عنصر -->
+<div class="overlay" id="itemOverlay">
+  <div class="modal">
+    <h3 id="itemModalTitle">إضافة عنصر</h3>
+    <div class="sub" id="itemModalSub">العنوان والوصف يظهران للجميع مع إمكانية العرض والطباعة</div>
+
+    <div class="field">
+      <label id="itemTitleLabel">العنوان</label>
+      <input type="text" id="itemTitleInput" placeholder="مثال: دليل خطة التطوير المهني 1448هـ">
+    </div>
+    <div class="field" id="descFieldWrap">
+      <label>وصف مختصر (اختياري)</label>
+      <textarea id="itemDescInput" placeholder="نبذة قصيرة عن محتوى الملف"></textarea>
+    </div>
+
+    <div class="field" id="attachModeWrap">
+      <label>طريقة إرفاق الملف</label>
+      <div class="filetype-toggle">
+        <button type="button" id="modeUploadBtn" class="active" onclick="setAttachMode('upload')">رفع ملف</button>
+        <button type="button" id="modeLinkBtn" onclick="setAttachMode('link')">رابط خارجي</button>
+      </div>
+    </div>
+
+    <div class="field" id="uploadField">
+      <label>الملف (PDF أو صورة أو Word)</label>
+      <input type="file" id="itemFileInput" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+      <div class="field-hint">حجم الملف يُفضّل ألا يتجاوز 2 ميجابايت (مساحة التخزين بالمتصفح محدودة). للملفات الأكبر (خصوصًا PDF الممسوح ضوئيًا) استخدمي "رابط خارجي" وارفعي الملف على Google Drive بدلًا من الرفع المباشر.</div>
+      <div class="field-hint" id="existingFileNote" style="display:none;color:var(--teal)"></div>
+    </div>
+
+    <div class="field" id="linkField" style="display:none">
+      <label id="itemLinkLabel">رابط الملف (Google Drive أو أي رابط مباشر)</label>
+      <input type="url" id="itemLinkInput" placeholder="https://drive.google.com/...">
+      <div class="field-hint" id="linkFieldHint">تأكدي أن مشاركة الملف بـ Google Drive مضبوطة على "أي شخص لديه الرابط" حتى يقدر الجميع يفتحونه.</div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('itemOverlay')">إلغاء</button>
+      <button class="btn btn-primary" onclick="saveItem()">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   منصة التطوير المهني — بدون قاعدة بيانات
+   البيانات تُحفظ داخل localStorage للتعديل الفوري، وتُطبع أيضًا
+   داخل نسخة HTML جديدة عبر زر "تنزيل نسخة محدثة" ليتم رفعها
+   ليراها جميع المنسوبات كنسخة ثابتة محدّثة.
+============================================================ */
+
+const ADMIN_PASSWORD = "تطوير1447"; // يمكن تغييرها من هنا مباشرة داخل الملف
+const STORAGE_KEY = "pd_platform_data_v1";
+const ADMIN_SESSION_KEY = "pd_platform_admin";
+
+let DATA = null;
+let currentTab = "guides";
+let isAdmin = false;
+let editingContext = { section:null, id:null };
+let attachMode = "upload";
+let pendingFile = null; // {name, dataUrl}
+
+function loadData(){
+  let data;
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if(saved){
+    try{ data = JSON.parse(saved); }catch(e){}
+  }
+  if(!data){
+    const tag = document.getElementById('__DATA__');
+    try{ data = JSON.parse(tag.textContent); }catch(e){ data = {}; }
+  }
+  data.guides = data.guides || [];
+  data.forms = data.forms || [];
+  data.programs = data.programs || [];
+  return data;
+}
+function persist(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+    return true;
+  }catch(e){
+    showToast('تعذّر الحفظ: الملف كبير على مساحة تخزين المتصفح — استخدمي "رابط خارجي" بدل رفع الملف مباشرة');
+    return false;
+  }
+}
+
+function uid(){ return 'id' + Date.now() + Math.random().toString(16).slice(2,8); }
+function todayStr(){
+  const d = new Date();
+  return d.toLocaleDateString('ar-SA-u-ca-gregory', {year:'numeric', month:'long', day:'numeric'});
+}
+
+/* ---------- عرض التبويبات ---------- */
+function switchTab(tab){
+  currentTab = tab;
+  document.getElementById('tabBtn-guides').classList.toggle('active', tab==='guides');
+  document.getElementById('tabBtn-forms').classList.toggle('active', tab==='forms');
+  document.getElementById('tabBtn-programs').classList.toggle('active', tab==='programs');
+  document.getElementById('section-guides').style.display = tab==='guides' ? '' : 'none';
+  document.getElementById('section-forms').style.display = tab==='forms' ? '' : 'none';
+  document.getElementById('section-programs').style.display = tab==='programs' ? '' : 'none';
+}
+
+function fileIconSvg(){
+  return '<svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 13h6M9 17h4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
+}
+function linkIconSvg(){
+  return '<svg viewBox="0 0 24 24" fill="none"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1.5 1.5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1.5-1.5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>';
+}
+
+function render(){
+  renderSection('guides');
+  renderSection('forms');
+  renderSection('programs');
+  document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'inline-flex' : 'none');
+  document.getElementById('adminBanner').style.display = isAdmin ? 'flex' : 'none';
+}
+
+function renderSection(section){
+  const list = DATA[section] || [];
+  const grid = document.getElementById('grid-' + section);
+  const count = document.getElementById('count-' + section);
+  count.textContent = list.length ? `(${list.length})` : '';
+
+  if(!list.length){
+    grid.innerHTML = `
+      <div class="empty" style="grid-column:1/-1">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4M12 16.5h.01M10.3 3.9L2.9 17.1A1.7 1.7 0 004.4 19.6h15.2a1.7 1.7 0 001.5-2.5L13.7 3.9a1.7 1.7 0 00-3.4 0z" stroke="currentColor" stroke-width="1.5"/></svg>
+        <h3>لا توجد عناصر بعد</h3>
+        <p>${isAdmin ? 'اضغطي على زر الإضافة بالأعلى لبدء إضافة المحتوى.' : 'سيتم إضافة المحتوى قريبًا من قِبل الإدارة.'}</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(item => section === 'programs' ? `
+    <div class="card">
+      <div class="card-top">
+        <div class="file-icon">${linkIconSvg()}</div>
+        <div>
+          <div class="card-title">${escapeHtml(item.title)}</div>
+          <div class="card-date">${escapeHtml(item.date || '')}</div>
+        </div>
+      </div>
+      ${item.link ? `<div class="card-desc" style="word-break:break-all;color:var(--blue)">${escapeHtml(item.link)}</div>` : ''}
+      <div class="card-actions">
+        <button class="btn btn-primary btn-sm" onclick="viewItem('${section}','${item.id}')">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M14 3h7v7M21 3l-9 9M5 5h6M5 5v14h14v-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          فتح الرابط
+        </button>
+      </div>
+      ${isAdmin ? `
+      <div class="card-actions-admin">
+        <button class="btn btn-outline btn-sm" onclick="openItemModal('${section}','${item.id}')">تعديل</button>
+        <button class="btn btn-danger-outline btn-sm" onclick="deleteItem('${section}','${item.id}')">حذف</button>
+      </div>` : ''}
+    </div>
+  ` : `
+    <div class="card">
+      <div class="card-top">
+        <div class="file-icon">${fileIconSvg()}</div>
+        <div>
+          <div class="card-title">${escapeHtml(item.title)}</div>
+          <div class="card-date">${escapeHtml(item.date || '')}</div>
+        </div>
+      </div>
+      ${item.desc ? `<div class="card-desc">${escapeHtml(item.desc)}</div>` : ''}
+      <div class="card-actions">
+        <button class="btn btn-ghost btn-sm" onclick="viewItem('${section}','${item.id}')">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          عرض
+        </button>
+        <button class="btn btn-ghost btn-sm" onclick="printItem('${section}','${item.id}')">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9V3h12v6M6 18H4a1 1 0 01-1-1v-6a1 1 0 011-1h16a1 1 0 011 1v6a1 1 0 01-1 1h-2M6 14h12v7H6v-7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          طباعة
+        </button>
+        <button class="btn btn-ghost btn-sm" onclick="downloadItem('${section}','${item.id}')">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          تنزيل
+        </button>
+      </div>
+      ${isAdmin ? `
+      <div class="card-actions-admin">
+        <button class="btn btn-outline btn-sm" onclick="openItemModal('${section}','${item.id}')">تعديل</button>
+        <button class="btn btn-danger-outline btn-sm" onclick="deleteItem('${section}','${item.id}')">حذف</button>
+      </div>` : ''}
+    </div>
+  `).join('');
+}
+
+function escapeHtml(str){
+  return (str||'').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+
+function findItem(section, id){
+  return (DATA[section]||[]).find(i => i.id === id);
+}
+
+/* ---------- عرض / طباعة / تنزيل ---------- */
+function resolveSrc(item){
+  if(item.attachType === 'link') return item.link;
+  if(item.attachType === 'file') return item.fileData;
+  return null;
+}
+
+// أغلب متصفحات الجوال (خصوصًا Safari على آيفون) لا تعرض ملفات PDF
+// داخل iframe مضمّن، وتحجب window.open للروابط من نوع data:.
+// الحل الأكثر توافقًا: تحويل الملف إلى Blob URL وفتحه عبر رابط <a>
+// حقيقي بنقرة مستخدم مباشرة — هذا يفتح عارض PDF الأصلي للمتصفح،
+// وفيه أزرار طباعة/مشاركة/حفظ جاهزة بشكل تلقائي.
+const blobUrlCache = {};
+function getOpenableUrl(item){
+  if(item.attachType === 'link') return item.link;
+  if(item.attachType === 'file' && item.fileData){
+    if(blobUrlCache[item.id]) return blobUrlCache[item.id];
+    try{
+      const parts = item.fileData.split(',');
+      const mimeMatch = parts[0].match(/data:(.*?);base64/);
+      const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+      const binary = atob(parts[1]);
+      const bytes = new Uint8Array(binary.length);
+      for(let i=0;i<binary.length;i++) bytes[i] = binary.charCodeAt(i);
+      const blob = new Blob([bytes], {type: mime});
+      const url = URL.createObjectURL(blob);
+      blobUrlCache[item.id] = url;
+      return url;
+    }catch(e){
+      return item.fileData; // fallback
+    }
+  }
+  return null;
+}
+
+function openItemInNewTab(item){
+  const src = getOpenableUrl(item);
+  if(!src){ showToast('لا يوجد ملف مرفق لهذا العنصر بعد'); return; }
+  const a = document.createElement('a');
+  a.href = src;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function viewItem(section, id){
+  const item = findItem(section, id);
+  if(!item) return;
+  openItemInNewTab(item);
+}
+
+function printItem(section, id){
+  const item = findItem(section, id);
+  if(!item) return;
+  showToast('سيُفتح الملف في تبويب جديد — اضغطي زر المشاركة أو الطباعة داخل عارض الملف نفسه');
+  openItemInNewTab(item);
+}
+
+function downloadItem(section, id){
+  const item = findItem(section, id);
+  if(!item) return;
+  const src = getOpenableUrl(item);
+  if(!src){ showToast('لا يوجد ملف مرفق لهذا العنصر بعد'); return; }
+  if(item.attachType === 'link'){
+    const a = document.createElement('a');
+    a.href = src; a.target = '_blank'; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+    return;
+  }
+  const a = document.createElement('a');
+  a.href = src;
+  a.download = item.fileName || (item.title + '.pdf');
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+/* ---------- الإدارة: دخول / خروج ---------- */
+function onAdminToggleClick(){
+  if(isAdmin){
+    isAdmin = false;
+    sessionStorage.removeItem(ADMIN_SESSION_KEY);
+    updateAdminBtn();
+    render();
+    showToast('تم الخروج من وضع الإدارة');
+  }else{
+    document.getElementById('adminPasswordInput').value = '';
+    openModal('loginOverlay');
+    setTimeout(()=>document.getElementById('adminPasswordInput').focus(), 50);
+  }
+}
+function trySubmitLogin(){
+  const val = document.getElementById('adminPasswordInput').value;
+  if(val === ADMIN_PASSWORD){
+    isAdmin = true;
+    sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
+    closeModal('loginOverlay');
+    updateAdminBtn();
+    render();
+    showToast('مرحبًا بك، تم تفعيل وضع الإدارة');
+  }else{
+    showToast('كلمة المرور غير صحيحة');
+  }
+}
+function updateAdminBtn(){
+  const btn = document.getElementById('adminToggleBtn');
+  const label = document.getElementById('adminBtnLabel');
+  btn.classList.toggle('on', isAdmin);
+  label.textContent = isAdmin ? 'وضع الإدارة (خروج)' : 'دخول الإدارة';
+}
+
+/* ---------- إضافة / تعديل عنصر ---------- */
+function setAttachMode(mode){
+  attachMode = mode;
+  document.getElementById('modeUploadBtn').classList.toggle('active', mode==='upload');
+  document.getElementById('modeLinkBtn').classList.toggle('active', mode==='link');
+  document.getElementById('uploadField').style.display = mode==='upload' ? '' : 'none';
+  document.getElementById('linkField').style.display = mode==='link' ? '' : 'none';
+}
+function openItemModal(section, id){
+  editingContext = { section, id: id || null };
+  pendingFile = null;
+  document.getElementById('itemFileInput').value = '';
+  document.getElementById('existingFileNote').style.display = 'none';
+
+  const isEdit = !!id;
+  const sectionLabels = { guides:'دليل', forms:'نموذج', programs:'برنامج' };
+  document.getElementById('itemModalTitle').textContent =
+    (isEdit ? 'تعديل ' : 'إضافة ') + sectionLabels[section];
+
+  const isProgram = section === 'programs';
+  document.getElementById('itemModalSub').textContent = isProgram
+    ? 'اسم البرنامج ورابط موقعه، يظهران للجميع'
+    : 'العنوان والوصف يظهران للجميع مع إمكانية العرض والطباعة';
+  document.getElementById('itemTitleLabel').textContent = isProgram ? 'اسم البرنامج' : 'العنوان';
+  document.getElementById('itemTitleInput').placeholder = isProgram
+    ? 'مثال: برنامج تطوير المهارات القيادية'
+    : 'مثال: دليل خطة التطوير المهني 1448هـ';
+  document.getElementById('descFieldWrap').style.display = isProgram ? 'none' : '';
+  document.getElementById('attachModeWrap').style.display = isProgram ? 'none' : '';
+  document.getElementById('itemLinkLabel').textContent = isProgram
+    ? 'رابط موقع البرنامج'
+    : 'رابط الملف (Google Drive أو أي رابط مباشر)';
+  document.getElementById('itemLinkInput').placeholder = isProgram
+    ? 'https://example.com'
+    : 'https://drive.google.com/...';
+  document.getElementById('linkFieldHint').style.display = isProgram ? 'none' : '';
+
+  if(isEdit){
+    const item = findItem(section, id);
+    document.getElementById('itemTitleInput').value = item.title || '';
+    document.getElementById('itemDescInput').value = item.desc || '';
+    if(isProgram || item.attachType === 'link'){
+      setAttachMode('link');
+      document.getElementById('itemLinkInput').value = item.link || '';
+    }else{
+      setAttachMode('upload');
+      document.getElementById('itemLinkInput').value = '';
+      if(item.fileName){
+        document.getElementById('existingFileNote').style.display = 'block';
+        document.getElementById('existingFileNote').textContent = 'ملف حالي مرفق: ' + item.fileName + ' — اختاري ملفًا جديدًا فقط إن رغبتِ باستبداله';
+      }
+    }
+  }else{
+    document.getElementById('itemTitleInput').value = '';
+    document.getElementById('itemDescInput').value = '';
+    document.getElementById('itemLinkInput').value = '';
+    setAttachMode(isProgram ? 'link' : 'upload');
+  }
+  if(isProgram){
+    document.getElementById('uploadField').style.display = 'none';
+    document.getElementById('linkField').style.display = '';
+  }
+  openModal('itemOverlay');
+}
+
+function saveItem(){
+  const title = document.getElementById('itemTitleInput').value.trim();
+  if(!title){ showToast('الرجاء إدخال العنوان'); return; }
+  const desc = document.getElementById('itemDescInput').value.trim();
+  const { section, id } = editingContext;
+  const isProgram = section === 'programs';
+  const fileInput = document.getElementById('itemFileInput');
+  const linkVal = document.getElementById('itemLinkInput').value.trim();
+
+  if(isProgram && !linkVal){ showToast('الرجاء إدخال رابط موقع البرنامج'); return; }
+
+  function finalizeSave(fileData, fileName){
+    const wasNew = !id;
+    let item;
+    if(id){
+      item = findItem(section, id);
+    }else{
+      item = { id: uid(), date: todayStr() };
+      DATA[section].unshift(item);
+    }
+    item.title = title;
+    item.desc = isProgram ? '' : desc;
+    if(isProgram || attachMode === 'link'){
+      item.attachType = 'link';
+      item.link = linkVal;
+      item.fileData = null;
+      item.fileName = null;
+    }else if(fileData){
+      item.attachType = 'file';
+      item.fileData = fileData;
+      item.fileName = fileName;
+      item.link = null;
+    }else if(!id){
+      item.attachType = null;
+    }
+    const ok = persist();
+    if(!ok){
+      // تراجع عن الإضافة إذا فشل الحفظ (غالبًا بسبب حجم الملف)
+      if(wasNew){ DATA[section] = DATA[section].filter(i => i.id !== item.id); }
+      return;
+    }
+    closeModal('itemOverlay');
+    render();
+    showToast('تم الحفظ بنجاح');
+  }
+
+  if(!isProgram && attachMode === 'upload' && fileInput.files && fileInput.files[0]){
+    const file = fileInput.files[0];
+    if(file.size > 2*1024*1024){
+      showToast('حجم الملف كبير — الرجاء استخدام "رابط خارجي" (مثل Google Drive) بدل الرفع المباشر لهذا الملف');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => finalizeSave(reader.result, file.name);
+    reader.onerror = () => showToast('تعذّرت قراءة الملف، جرّبي ملفًا آخر أو استخدمي رابطًا خارجيًا');
+    reader.readAsDataURL(file);
+  }else{
+    finalizeSave(null, null);
+  }
+}
+
+function deleteItem(section, id){
+  if(!confirm('هل تريدين حذف هذا العنصر؟')) return;
+  DATA[section] = (DATA[section]||[]).filter(i => i.id !== id);
+  persist();
+  render();
+  showToast('تم الحذف');
+}
+
+/* ---------- تصدير نسخة محدثة من الملف ---------- */
+function exportUpdatedFile(){
+  const clone = document.documentElement.cloneNode(true);
+  const dataTag = clone.querySelector('#__DATA__');
+  if(dataTag) dataTag.textContent = JSON.stringify(DATA);
+  // إزالة أي حالة جلسة إدارية من النسخة المصدّرة
+  const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'التطوير-المهني.html';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  showToast('تم تنزيل النسخة المحدثة، ارفعيها الآن مكان الملف القديم');
+}
+
+/* ---------- عناصر مساعدة عامة ---------- */
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.overlay').forEach(ov => {
+  ov.addEventListener('click', e => { if(e.target === ov) ov.classList.remove('show'); });
+});
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+/* ---------- زر تصدير للإدارة (يُضاف ديناميكيًا أعلى المحتوى) ---------- */
+function injectExportBar(){
+  if(document.getElementById('exportBar')) return;
+  const bar = document.createElement('div');
+  bar.id = 'exportBar';
+  bar.className = 'admin-only';
+  bar.style.cssText = 'display:none;margin-bottom:18px;';
+  bar.innerHTML = `
+    <button class="btn btn-outline" onclick="exportUpdatedFile()" style="width:100%;justify-content:center;border-style:dashed">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      تنزيل نسخة محدثة من الملف لرفعها للجميع
+    </button>`;
+  document.querySelector('main.wrap').insertBefore(bar, document.getElementById('adminBanner').nextSibling);
+}
+
+/* ---------- التقاط الأخطاء العامة (تساعد في التشخيص) ---------- */
+window.addEventListener('error', function(e){
+  const msg = (e && e.message) ? e.message : 'حدث خطأ غير متوقع';
+  if(msg && msg !== 'Script error.'){
+    showToast('خطأ: ' + msg);
+  }
+});
+
+/* ---------- التشغيل ---------- */
+(function init(){
+  DATA = loadData();
+  if(sessionStorage.getItem(ADMIN_SESSION_KEY) === '1') isAdmin = true;
+  injectExportBar();
+  updateAdminBtn();
+  render();
+})();
+</script>
+</body>
+</html>
